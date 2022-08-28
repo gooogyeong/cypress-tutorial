@@ -89,17 +89,21 @@ describe('Basic Practice', () => {
     });
 
     it('should have all of the items in the "Unpacked" list', () => {
-      // TODO
-      cy.get('[data-test="mark-all-as-unpacked"]').click()
-      cy.get('[data-test="items-unpacked"] ul').children().should('have.length', 5)
+      cy.get('[data-test="items"] li')
+        .its('length')
+        .then((count) => {
+          cy.get('[data-test="mark-all-as-unpacked"]').click();
+          cy.get('[data-test="items-unpacked"] li').its('length').should('eq', count);
+        });
     });
   });
 
   describe('Mark individual item as packed', () => {
-    it.only('should move an individual item from "Unpacked" to "Packed"', () => {
+    it('should move an individual item from "Unpacked" to "Packed"', () => {
       // HELP
       const packedItemName = 'Tooth Brush'
-      cy.get('[data-test="items"] li').contains(packedItemName).find('input[type="checkbox"]').click()
+      cy.get('[data-test="items"] li').contains(packedItemName).click()
+      // cy.get('[data-test="items"] li').contains(packedItemName).find('input[type="checkbox"]').click()
       cy.get('[data-test="items-unpacked"]').contains(packedItemName).should('not.exist')
       cy.get('[data-test="items-packed"]').contains(packedItemName).should('exist')
 
