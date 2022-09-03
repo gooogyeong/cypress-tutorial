@@ -1,23 +1,17 @@
-name: Run Cypress Tests # workflow 이름. 바꿔도 됨
-on:
-  push:
-    branches:
-      - 'kahlo'
+name: Cypress Tests
+
+on: [push]
+
 jobs:
-  cypress-run: # job이름. 바꿔도 됨
+  cypress-run:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout # action maintained by GitHub. can be
-        # can be called w/o extra config
-        # this action checks out repo and pulls it into our pipeline
-        # so that out workflow can access it
+      - name: Checkout
         uses: actions/checkout@v2
-      - name: Install modules
-        run: npm ci
-      - name: Cypress
-        uses: cypress-io/github-action@v2
+      # Install NPM dependencies, cache them correctly
+      # and run all Cypress tests
+      - name: Cypress run
+        uses: cypress-io/github-action@v4
         with:
-          browser: chrome
-          headless: true
+          build: npm run build
           start: npm start
-          wait-on: http://localhost:3000
