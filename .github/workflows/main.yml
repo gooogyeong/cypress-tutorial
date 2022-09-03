@@ -1,19 +1,20 @@
-name: Cypress Tests
-
+name: Run Cypress Tests
 on: [push]
-
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Install modules
+        run: npm ci
+      - name: Cypress
+        uses: cypress-io/github-action@v2
         with:
-          - github_token: ${{ secrets.WORKFLOW_PAT }}
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Cypress run
-        uses: cypress-io/github-action@v4
-        with:
-          build: npm run build
+          browser: chrome
+          headless: true
+          record: true
           start: npm start
+          wait-on: http://localhost:3000
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
