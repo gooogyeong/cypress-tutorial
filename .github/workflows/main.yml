@@ -17,4 +17,5 @@ jobs:
           start: npm start
           wait-on: http://localhost:3000
         env:
+          GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
