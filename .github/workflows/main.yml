@@ -1,0 +1,20 @@
+name: Run Cypress Tests # workflow 이름. 바꿔도 됨
+on: [push] # push시에 이 workflow를 트리거
+jobs:
+  cypress-run: # job이름. 바꿔도 됨
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout # action maintained by GitHub. can be
+        # can be called w/o extra config
+        # this action checks out repo and pulls it into our pipeline
+        # so that out workflow can access it
+        uses: actions/checkout@v2
+      - name: Install modules
+        run: npm ci
+      - name: Cypress
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          headless: true
+          start: npm start
+          wait-on: http://localhost:3000
